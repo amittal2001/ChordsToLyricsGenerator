@@ -3,18 +3,18 @@
 """
 
 NOTE_TO_TOKEN = {
-    'a': 0,
-    'bb': 1,
-    'b': 2,
-    'c': 3,
-    'db': 4,
-    'd': 5,
-    'eb': 6,
-    'e': 7,
-    'f': 8,
-    'gb': 9,
-    'g': 10,
-    'ab': 11
+    'A': 0,
+    'Bb': 1,
+    'B': 2,
+    'C': 3,
+    'Db': 4,
+    'D': 5,
+    'Eb': 6,
+    'E': 7,
+    'F': 8,
+    'Gb': 9,
+    'G': 10,
+    'Ab': 11
 }
 TOKEN_TO_NOTE = {v: k for k,v in NOTE_TO_TOKEN.items()}
 
@@ -171,11 +171,11 @@ for all_keys, v in _CHORD_TYPE_TO_TOKEN_RAW.items():
 TOKEN_TO_CHORD_TYPE = {v: k for k, v in _CHORD_TYPE_TO_TOKEN_RAW.items()}
 
 SHARP_TO_FLAT = {
-   'c#': 'db',
-   'd#': 'eb',
-   'f#': 'gb',
-   'g#': 'ab',
-   'a#': 'bb',
+   'C#': 'Db',
+   'D#': 'Eb',
+   'F#': 'Gb',
+   'G#': 'Ab',
+   'A#': 'Bb',
 }
 
 class ChordTokenizer():
@@ -186,21 +186,21 @@ class ChordTokenizer():
         slash_ind = -1 #by default - empty
         #root - first 2 letters in the chord
         if(len(chord) == 1):
-          root = chord[0].lower()
+          root = chord[0]
         elif chord[1]=='#' or chord[1]=='b':
-          root = chord[0:2].lower()
+          root = chord[0:2]
           # Convert sharp (#) to flat (b)
           if root in SHARP_TO_FLAT:
              root = SHARP_TO_FLAT[root]
         else:
-          root = chord[0].lower()
+          root = chord[0]
 
         #convert root from string to num
         root_ind = NOTE_TO_TOKEN[root]
         #bass - /
-        if len(chord) >= 3 and '/' in chord[-3:]:
+        if len(chord) >= 3 and '/' in chord[-3 :]:
           slash_ind = chord.find('/')
-          bass = chord[slash_ind+1:].lower()
+          bass = chord[slash_ind + 1 :]
           # Convert sharp (#) to flat (b)
           if bass in SHARP_TO_FLAT:
              bass = SHARP_TO_FLAT[bass]
@@ -242,6 +242,7 @@ class ChordTokenizer():
 
 def test():
    print(f'C tokenization: {ChordTokenizer.tokenize("C")}')
+   print(f'C de+tokenization: {ChordTokenizer.detokenize(ChordTokenizer.tokenize("F79/D"))}')
 
 if __name__ == '__main__':
    test()
